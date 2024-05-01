@@ -1,0 +1,7 @@
+.order__p-text {
+    font-family: var(--h3-font-family);
+    color: var(--text-white);
+    font-size: 19px;
+    font-weight: 400;
+    font-style: italic;
+}

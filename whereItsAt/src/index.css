@@ -14,6 +14,7 @@
   --text-dropshadow-pink: #F56B9A;
   --text-green: #37AEAB;
   --text-white: #FFFFFF;
+  --text-grey: #D0D0D0;
 
   --btn-green: #37AEAB;
 
@@ -31,25 +32,28 @@ h2 {
   font-style: italic;
 }
 
-h3 {
+/*h3 {
   color: var(--text-white);
   font-family: var(--h3-font-family);
   font-style: italic;
   font-weight: 100;
   font-size: 22px;
-}
+}*/
 
 .content__container {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
   margin: 1rem auto;
   height: 667px;
   width: 375px;
   background-color: var(--page-background-blue);
+}
+
+.home__position {
+  align-items: center;
+  justify-content: center;
 }
 
 .btn__styling {

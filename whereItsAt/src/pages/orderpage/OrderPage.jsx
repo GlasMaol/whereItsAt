@@ -1,4 +1,4 @@
-
+import './orderPage.css'
 
 function OrderPage() {
     return (
@@ -11,6 +11,10 @@ function OrderPage() {
 
             </section>
             <section>
+                <span>
+                    <p className='order__p-text'>Totalt värde på order</p>
+                    <h3>1310 sek</h3>
+                </span>
                 <button className="btn__styling">
                     Skicka order
                 </button>

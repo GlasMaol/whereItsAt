@@ -2,7 +2,7 @@
 
 function HomePage() {
     return (
-        <div className="content__container">
+        <div className="content__container home__position">
             <section className="home__container">
                 <img className="home__img" src="./src/assets/home.png" alt="logo picture" />
                 <h2>
