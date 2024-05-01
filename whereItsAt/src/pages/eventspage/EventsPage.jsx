@@ -1,16 +1,14 @@
 import './eventsPage.css'
-import { useState, useEffect } from 'react'
+import useApiStore from '../../apiStore';
+import { useEffect } from 'react'
 
 
 function EventsPage() {
-    const [events, setEvents] = useState([]);
+    const {events, fetchEvents} = useApiStore();
 
-    useEffect(() => {
-        fetch('https://santosnr6.github.io/Data/events.json')
-            .then(response => response.json())
-            .then(data => setEvents(data.events))
-            .catch(error => console.error('Fel när events hämtades:', error));
-    }, []);
+useEffect(() => {
+    fetchEvents();
+}, [])
 
     return (
         <div className="content__container">
