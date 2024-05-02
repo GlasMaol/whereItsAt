@@ -10,6 +10,19 @@ input {
     background-repeat: no-repeat;
 }
 
+.events__cards-holder {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(80vh - 10px);
+    padding-bottom: 120px;
+    scrollbar-width: none;
+    cursor: pointer;
+}
+
+.events__cards-holder::-webkit-scrollbar {
+    display: none;
+}
+
 .event__card {
     display: flex;
     flex-direction: row;
