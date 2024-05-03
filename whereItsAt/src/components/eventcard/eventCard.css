@@ -1,0 +1,17 @@
+.single-event__when {
+font-family: var(--h3-font-family);
+color: var(--text-green);
+font-size: 19px;
+}
+
+.single-event__where {
+    font-family: var(--h3-font-family);  
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    font-style: italic;
+}
+
+.single-event__price {
+    font-family: var(--h3-font-family);
+
+}

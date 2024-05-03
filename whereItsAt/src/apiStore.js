@@ -6,7 +6,12 @@ const useApiStore = create((set) => ({
     fetchEvents: async () => {
         try {
             const response = await axios.get('https://santosnr6.github.io/Data/events.json');
-            set({ events: response.data.events });
+            
+            const eventsWithId = response.data.events.map((event, index) => ({
+                ...event,
+                id: index //ID blir index nr.
+            }));
+            set({ events: eventsWithId });
         } catch (error) {
             console.error('Fel i hämtningen av events:', error);
         }

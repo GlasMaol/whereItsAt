@@ -25,8 +25,8 @@ function EventsPage() {
                 {events.map((event, index) => (
                     <Link
                         to={{
-                            path: '/event',
-                            state: { event },
+                            pathname: `/event/${event.id}`,
+                            state: { event: event },
                         }}
                         role='link'
                         aria-label='link to event'
