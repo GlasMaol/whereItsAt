@@ -1,26 +1,24 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import useApiStore from './apiStore';
 
-
 const OrderContext = createContext();
 
 const useOrderContext = () => useContext(OrderContext);
 
 const OrderContextProvider = ({ children }) => {
-
     const { events, fetchEvents } = useApiStore();
-
-    useEffect(() => {
-        fetchEvents();
-    }, []);
-
     const [orders, setOrders] = useState([]);
     const [ticketCounts, setTicketCounts] = useState({});
     const [eventPrices, setEventPrices] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
-
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
+        fetchEvents();
+        loadLocalStorageData();
+    }, []);
+
+    const loadLocalStorageData = () => {
         const savedData = localStorage.getItem('orderData');
         if (savedData) {
             const parsedData = JSON.parse(savedData);
@@ -28,22 +26,24 @@ const OrderContextProvider = ({ children }) => {
             setTicketCounts(parsedData.ticketCounts);
             setEventPrices(parsedData.eventPrices);
             setTotalPrice(parsedData.totalPrice);
+            setIsLoaded(true);
         }
-    }, []);
+    };
 
     useEffect(() => {
-        const data = {
-            orders: orders,
-            ticketCounts: ticketCounts,
-            eventPrices: eventPrices,
-            totalPrice: totalPrice
-        };
-        localStorage.setItem('orderData', JSON.stringify(data));
-    }, [orders, ticketCounts, eventPrices, totalPrice])
+        if (isLoaded) {
+            const data = {
+                orders: orders,
+                ticketCounts: ticketCounts,
+                eventPrices: eventPrices,
+                totalPrice: totalPrice
+            };
+            localStorage.setItem('orderData', JSON.stringify(data));
+        }
+    }, [orders, ticketCounts, eventPrices, totalPrice, events, isLoaded]);
 
     const addOrder = (order) => {
         setOrders([...orders, order]);
-        /*setTotalPrice(totalPrice + order.totalPrice);*/
         setTicketCounts({});
         setEventPrices({});
         setTotalPrice(0);
@@ -52,18 +52,10 @@ const OrderContextProvider = ({ children }) => {
     const removeOrder = (orderId) => {
         const updatedOrders = orders.filter((order) => order.id !== orderId);
         setOrders(updatedOrders);
-
         setTicketCounts({});
         setEventPrices({});
         setTotalPrice(0);
     };
-    /*const removeOrder = (orderId) => {
-        const updatedOrders = orders.filter((order) => order.id !== orderId);
-        setOrders(updatedOrders);
-
-        const updatedTotalPrice = updatedOrders.reduce((total, order) => total + order.totalPrice, 0);
-        setTotalPrice(updatedTotalPrice);
-    };*/
 
     const addTickets = (eventId, number, pricePerTicket) => {
         const newCount = (ticketCounts[eventId] || 0) + number;
@@ -82,36 +74,16 @@ const OrderContextProvider = ({ children }) => {
 
         setTicketCounts(prev => ({ ...prev, [eventId]: newCount }));
         setEventPrices(prev => ({ ...prev, [eventId]: newEventPrice }));
-        setTotalPrice(prev => Math.max(prev - priceReduction, 0))
-    }
-
-    /*useEffect(() => {
-        const data = {
-            orders: orders,
-            ticketCounts: ticketCounts,
-            eventPrices: eventPrices,
-            totalPrice: totalPrice
-        };
-        console.log("Uppdaterar localStorage med:", data);
-        localStorage.setItem('orderData', JSON.stringify(data));
-    }, [orders, ticketCounts, eventPrices, totalPrice])
-
-    useEffect(() => {
-        const savedData = localStorage.getItem('orderData');
-        if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            setOrders(parsedData.orders);
-            setTicketCounts(parsedData.ticketCounts);
-            setEventPrices(parsedData.eventPrices);
-            setTotalPrice(parsedData.totalPrice);
-        }
-    }, []); // Tom dependency array så den bara körs vid montering*/
+        setTotalPrice(prev => Math.max(prev - priceReduction, 0));
+    };
 
     const value = {
         events,
         orders,
         addTickets,
         removeTickets,
+        ticketCounts,
+        eventPrices,
         totalPrice,
         addOrder,
         removeOrder,

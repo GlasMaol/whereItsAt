@@ -113,3 +113,8 @@ input {
 .date__month {
     font-size: 10px;
 }
+
+.btn__placement {
+    position: absolute;
+    bottom: 80px; 
+}

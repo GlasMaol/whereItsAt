@@ -39,13 +39,14 @@ h2 {
   font-style: italic;
 }
 
-/*h3 {
+h3 {
   color: var(--text-white);
   font-family: var(--h3-font-family);
+  font-size: 18px;
   font-style: italic;
   font-weight: 100;
-  font-size: 22px;
-}*/
+  letter-spacing: 2px;
+}
 
 .content__container {
   position: relative;

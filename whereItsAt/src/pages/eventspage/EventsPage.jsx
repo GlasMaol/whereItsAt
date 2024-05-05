@@ -31,6 +31,7 @@ function EventsPage() {
                         role='link'
                         aria-label='link to event'
                         key={index}
+                        style={{ textDecoration: 'none' }}
                         >
                         <div className="event__card"
                             >

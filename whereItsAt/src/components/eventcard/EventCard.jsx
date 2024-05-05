@@ -28,9 +28,11 @@ function EventCard({ event }) {
             </section>
 
             <section className='tickets__container'>
-                <EventCalc event={event}/>
+                <EventCalc event={event} />
             </section>
-            <button className='btn__styling'>Lägg i varukorgen</button>
+            <section className="btn__container">
+                <button className='btn__styling'>Lägg i varukorgen</button>
+            </section>
         </div>
     );
 }

@@ -1,68 +1,58 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState, useEffect } from "react";
 import { OrderContext } from "../../OrderContextProvider";
-import './eventCalc.css'
+import './eventCalc.css';
 
 function EventCalc({ event }) {
-    const { addTickets, removeTickets } = useContext(OrderContext);
-    const [ticketCount, setTicketCount] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
+    if (!event) {
+        return <div>Loading event data...</div>;
+    }
+
+    const { addTickets, removeTickets, ticketCounts, eventPrices } = useContext(OrderContext);
+    console.log('ticketCounts', ticketCounts, event.id);
+    const initialTicketCount = ticketCounts[event.id] || 0;
+    const initialTotalPrice = eventPrices[event.id] || 0;
+    const [ticketCount, setTicketCount] = useState(initialTicketCount);
+    const [totalPrice, setTotalPrice] = useState(initialTotalPrice);
 
     useEffect(() => {
-        setTotalPrice(event.price ? event.price * ticketCount : 0);
-    }, [ticketCount, event.price]);
-
-    // Läs från localStorage när komponenten laddas
-    useEffect(() => {
-        const savedCounts = JSON.parse(localStorage.getItem('ticketCounts')) || {};
-        const eventTicketCount = savedCounts[event.id] || 0;
-        setTicketCount(eventTicketCount);
-    }, [event.id]);
-
-    // Uppdatera localStorage när ticketCount ändras
-    useEffect(() => {
-        const savedCounts = JSON.parse(localStorage.getItem('ticketCounts')) || {};
-        savedCounts[event.id] = ticketCount;
-        localStorage.setItem('ticketCounts', JSON.stringify(savedCounts));
-    }, [ticketCount, event.id]);
+        if (event) {
+            const savedTicketCount = ticketCounts[event.id] || 0;
+            setTicketCount(savedTicketCount);
+            const savedEventPrice = eventPrices[event.id] || 0;
+            setTotalPrice(savedEventPrice);
+        }
+    }, [event, ticketCounts, eventPrices]);
 
     const handleAddTicket = () => {
-        addTickets(event.id, 1, event.price);
-        setTicketCount(prev => {
-            console.log(`Adding ticket: new count is ${prev + 1}`);
-            return prev + 1;
-        });
+        console.log('Current event add:', event);
+        if (event) {
+            addTickets(event.id, 1, event.price);
+            setTicketCount(prevCount => prevCount + 1);
+            setTotalPrice(prevPrice => prevPrice + event.price);
+        }
     };
 
     const handleRemoveTicket = () => {
-        if (ticketCount > 0) {
+        console.log('Current event remove:', event);
+        if (event && ticketCount > 0) {
             removeTickets(event.id, 1, event.price);
-            setTicketCount(prev => {
-                console.log(`Removing ticket: new count is ${prev - 1}`);
-                return prev - 1;
-            });   
-        };
-    }
+            setTicketCount(prevCount => prevCount - 1);
+            setTotalPrice(prevPrice => prevPrice - event.price);
+        }
+    };
 
     return (
         <div className="eventcalc__container">
             <span className="eventcalc__price">
-                {ticketCount > 0 ? `${totalPrice}` : event.price ? `${event.price}` : 'Pris ej tillgänglig'}
+                {ticketCount > 0 ? totalPrice : (event && event.price !== undefined ? event.price : 'Pris ej tillgänglig')} sek
             </span>
             <div className="eventcalc__controls">
-                <button className="calc__btn"
-                    onClick={handleRemoveTicket} disabled={!event.price}>
-                    -
-                </button>
-                <span>
-                    {ticketCount}
-                </span>
-                <button className="calc__btn"
-                    onClick={handleAddTicket} disabled={!event.price}>
-                    +
-                </button>
+                <button className="calc__btn btn__border-right" onClick={handleRemoveTicket} disabled={!event}>-</button>
+                <span className="ticket__nr">{ticketCount}</span>
+                <button className="calc__btn btn__border-left" onClick={handleAddTicket} disabled={!event}>+</button>
             </div>
         </div>
-    )
+    );
 }
 
-export default EventCalc
+export default EventCalc;

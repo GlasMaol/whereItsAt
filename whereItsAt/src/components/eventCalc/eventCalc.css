@@ -1,33 +1,47 @@
 .eventcalc__container {
     margin: 0 auto;
     display: grid;
-    grid-template-rows: auto auto; /* Två rader */
-    grid-gap: 10px; /* Mellanrum mellan raderna */
+    grid-template-rows: auto auto;
     max-width: 230px;
-    min-height: 100px;
+    min-height: 110px;
     border: 2px solid var(--page-background-pink);
     border-radius: 3px;
+    margin-bottom: 80px;
 }
 
 .eventcalc__price {
     font-family: var(--h3-font-family);
     font-size: 32px;
     color: var(--text-white);
-    grid-row: 1 / 2; /* Första raden */
+    text-shadow: 1px 1px 0 var(--text-dropshadow-pink);
+    grid-row: 1 / 2;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 60px;
 }
 
 .eventcalc__controls {
     font-family: var(--h3-font-family);
-    font-size: 28px;
+    font-size: 24px;
+    font-weight: lighter;
     color: var(--text-white);
-    grid-row: 2 / 3; /* Andra raden */
+    grid-row: 2 / 3;
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tre kolumner */
-    gap: 10px; /* Mellanrum mellan kolumnerna */
+    grid-template-columns: repeat(3, 1fr);
     border: 1px solid var(--page-background-pink);
+    align-items: center;
+}
+
+.ticket__nr {
+    font-size: 24px;
+    font-weight: 100; 
+}
+
+.eventcalc__controls span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .calc__btn {
@@ -35,4 +49,13 @@
     color: var(--text-white);
     font-size: 30px;
     cursor: pointer;
+    border: none;
+}
+
+.btn__border-right {
+    border-right: 1px solid var(--page-background-pink);
+}
+
+.btn__border-left {
+    border-left: 1px solid var(--page-background-pink);
 }
