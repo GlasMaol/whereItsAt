@@ -1,0 +1,38 @@
+.eventcalc__container {
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: auto auto; /* Två rader */
+    grid-gap: 10px; /* Mellanrum mellan raderna */
+    max-width: 230px;
+    min-height: 100px;
+    border: 2px solid var(--page-background-pink);
+    border-radius: 3px;
+}
+
+.eventcalc__price {
+    font-family: var(--h3-font-family);
+    font-size: 32px;
+    color: var(--text-white);
+    grid-row: 1 / 2; /* Första raden */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventcalc__controls {
+    font-family: var(--h3-font-family);
+    font-size: 28px;
+    color: var(--text-white);
+    grid-row: 2 / 3; /* Andra raden */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tre kolumner */
+    gap: 10px; /* Mellanrum mellan kolumnerna */
+    border: 1px solid var(--page-background-pink);
+}
+
+.calc__btn {
+    background-color: var(--pagebackground-blue);
+    color: var(--text-white);
+    font-size: 30px;
+    cursor: pointer;
+}

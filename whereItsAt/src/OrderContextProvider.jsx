@@ -1,55 +1,122 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import useApiStore from './apiStore';
 
-// Cskapa en context
+
 const OrderContext = createContext();
 
-// Custom hook för ordercontext
 const useOrderContext = () => useContext(OrderContext);
 
-// Provider component to wrap the application and provide order context
 const OrderContextProvider = ({ children }) => {
-    // Get the fetchEvents function from the useApiStore hook
+
     const { events, fetchEvents } = useApiStore();
 
-    // Fetch events when the component mounts
     useEffect(() => {
         fetchEvents();
     }, []);
 
-    // Initialize state for orders and total price
     const [orders, setOrders] = useState([]);
+    const [ticketCounts, setTicketCounts] = useState({});
+    const [eventPrices, setEventPrices] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
-    const [selectedEvent, setSelectedEvent] = useState(null);
 
-    // Add an order to the state and update total price
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('orderData');
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            setOrders(parsedData.orders);
+            setTicketCounts(parsedData.ticketCounts);
+            setEventPrices(parsedData.eventPrices);
+            setTotalPrice(parsedData.totalPrice);
+        }
+    }, []);
+
+    useEffect(() => {
+        const data = {
+            orders: orders,
+            ticketCounts: ticketCounts,
+            eventPrices: eventPrices,
+            totalPrice: totalPrice
+        };
+        localStorage.setItem('orderData', JSON.stringify(data));
+    }, [orders, ticketCounts, eventPrices, totalPrice])
+
     const addOrder = (order) => {
         setOrders([...orders, order]);
-        setTotalPrice(totalPrice + order.totalPrice);
+        /*setTotalPrice(totalPrice + order.totalPrice);*/
+        setTicketCounts({});
+        setEventPrices({});
+        setTotalPrice(0);
     };
 
-    // Remove an order from the state and update total price
     const removeOrder = (orderId) => {
         const updatedOrders = orders.filter((order) => order.id !== orderId);
         setOrders(updatedOrders);
 
-        // Recalculate total price based on remaining orders
+        setTicketCounts({});
+        setEventPrices({});
+        setTotalPrice(0);
+    };
+    /*const removeOrder = (orderId) => {
+        const updatedOrders = orders.filter((order) => order.id !== orderId);
+        setOrders(updatedOrders);
+
         const updatedTotalPrice = updatedOrders.reduce((total, order) => total + order.totalPrice, 0);
         setTotalPrice(updatedTotalPrice);
+    };*/
+
+    const addTickets = (eventId, number, pricePerTicket) => {
+        const newCount = (ticketCounts[eventId] || 0) + number;
+        const newEventPrice = (eventPrices[eventId] || 0) + (number * pricePerTicket);
+
+        setTicketCounts(prev => ({ ...prev, [eventId]: newCount }));
+        setEventPrices(prev => ({ ...prev, [eventId]: newEventPrice }));
+        setTotalPrice(prev => (prev + (number * pricePerTicket)));
     };
 
-    // Value object to provide in the context
+    const removeTickets = (eventId, number, pricePerTicket) => {
+        const currentCount = ticketCounts[eventId] || 0;
+        const newCount = Math.max(currentCount - number, 0);
+        const priceReduction = number * pricePerTicket;
+        const newEventPrice = Math.max((eventPrices[eventId] || 0) - priceReduction, 0);
+
+        setTicketCounts(prev => ({ ...prev, [eventId]: newCount }));
+        setEventPrices(prev => ({ ...prev, [eventId]: newEventPrice }));
+        setTotalPrice(prev => Math.max(prev - priceReduction, 0))
+    }
+
+    /*useEffect(() => {
+        const data = {
+            orders: orders,
+            ticketCounts: ticketCounts,
+            eventPrices: eventPrices,
+            totalPrice: totalPrice
+        };
+        console.log("Uppdaterar localStorage med:", data);
+        localStorage.setItem('orderData', JSON.stringify(data));
+    }, [orders, ticketCounts, eventPrices, totalPrice])
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('orderData');
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            setOrders(parsedData.orders);
+            setTicketCounts(parsedData.ticketCounts);
+            setEventPrices(parsedData.eventPrices);
+            setTotalPrice(parsedData.totalPrice);
+        }
+    }, []); // Tom dependency array så den bara körs vid montering*/
+
     const value = {
         events,
         orders,
+        addTickets,
+        removeTickets,
         totalPrice,
-        selectedEvent,
-        setSelectedEvent,
         addOrder,
         removeOrder,
     };
 
-    // Render the provider with the value and children
     return (
         <OrderContext.Provider value={value}>
             {children}
@@ -57,5 +124,4 @@ const OrderContextProvider = ({ children }) => {
     );
 };
 
-// Export the provider and hook for use in other components
-export { OrderContextProvider, useOrderContext };
+export { OrderContextProvider, useOrderContext, OrderContext };

@@ -19,7 +19,7 @@ function EventPage() {
         setEvent(foundEvent);
     }, [eventId, events]);
 
-    console.log("Event skickat till EventCard:", event);
+    /*console.log("Event skickat till EventCard:", event);*/
 
     return (
         <div className="content__container">

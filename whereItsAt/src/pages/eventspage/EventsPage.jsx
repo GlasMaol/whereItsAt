@@ -63,7 +63,7 @@ function EventsPage() {
                     </Link>
                 ))}
 
-                <Link to='/tickets' role='link' aria-label='link to tickets'>
+                <Link to='/orders' role='link' aria-label='link to order page'>
                     <button className="btn__styling">
                         Till Varukorgen
                     </button>

@@ -1,3 +1,4 @@
+import EventCalc from '../eventCalc/EventCalc';
 import './eventCard.css'
 
 function EventCard({ event }) {
@@ -6,11 +7,11 @@ function EventCard({ event }) {
         return <p>Ingen eventdata tillgänglig</p>;
     }
 
-    console.log("Event object:", event);
+    /*console.log("Event object:", event);
     console.log('Event name:', event.name);
     console.log('Event when:', event.when);
     console.log('Event where:', event.where);
-    console.log('Event price:', event.price);
+    console.log('Event price:', event.price);*/
 
     return (
         <div className="event-card">
@@ -27,9 +28,7 @@ function EventCard({ event }) {
             </section>
 
             <section className='tickets__container'>
-                <p className='single-event__price'>
-                    {event.price ? `${event.price} SEK` : 'Pris ej tillgängligt'}
-                </p>
+                <EventCalc event={event}/>
             </section>
             <button className='btn__styling'>Lägg i varukorgen</button>
         </div>
