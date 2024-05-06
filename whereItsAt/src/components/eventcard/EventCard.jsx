@@ -1,7 +1,28 @@
+import { useContext } from 'react';
+import { useOrderContext } from '../../OrderContextProvider';
 import EventCalc from '../eventCalc/EventCalc';
 import './eventCard.css'
 
 function EventCard({ event }) {
+    const { addOrder } = useOrderContext();
+
+    const handleAddToCart = () => {
+        const ticketCount = event.ticketCount || 0;
+        const totalPrice = event.totalPrice || 0;
+        const order = {
+            id: event.id,
+            name: event.name,
+            date: event.when.date,
+            from: event.when.from,
+            to: event.when.to,
+            price:event.price,
+            ticketCount: ticketCount,
+            totalPrice: totalPrice
+        };
+        addOrder(order);
+        console.log('added order',order);
+    }
+
 
     if (!event) {
         return <p>Ingen eventdata tillgänglig</p>;
@@ -31,7 +52,7 @@ function EventCard({ event }) {
                 <EventCalc event={event} />
             </section>
             <section className="btn__container">
-                <button className='btn__styling'>Lägg i varukorgen</button>
+                <button className='btn__styling' onClick={handleAddToCart}>Lägg i varukorgen</button>
             </section>
         </div>
     );
