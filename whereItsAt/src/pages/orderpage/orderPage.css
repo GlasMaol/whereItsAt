@@ -5,3 +5,29 @@
     font-weight: 400;
     font-style: italic;
 }
+
+.order__text {
+    font-family: var(--h3-font-family);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 19px;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.order__total {
+    font-family: var(--h3-font-family);
+    font-size: 32px;
+    color: var(--text-white);
+    text-shadow: 1px 1px 0 var(--text-dropshadow-pink);
+    margin-bottom: 1rem;
+}
+
+.order__content {
+    overflow-y: auto;
+    max-height: calc(80vh - 10px);
+    padding-bottom: 80px;
+}
+
+.order__content::-webkit-scrollbar {
+    display: none;
+}

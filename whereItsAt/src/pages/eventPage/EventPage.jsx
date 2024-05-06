@@ -27,7 +27,7 @@ function EventPage() {
             <p className='event__text'>
                 You are about to score<br></br>some tickets to
             </p>
-            {event ? <EventCard event={event} /> : <p>Event details not found.</p>}
+            {event ? <EventCard event={{ id: event.id, name: event.name, when: event.when, where: event.where, price: event.price }} /> : <p>Event details not found.</p>}
         </div>
     );
 }
