@@ -1,9 +1,9 @@
 import { useOrderContext } from '../../OrderContextProvider';
-import OrderCard from '../../components/orderCard/OrderCard'; // Assuming this is the correct path to your OrderCard component
+import OrderCard from '../../components/orderCard/OrderCard';
 import './orderPage.css';
 
 function OrderPage() {
-    const { orders, totalPrice, confirmOrder } = useOrderContext(); // Remove updateOrder and removeOrder
+    const { orders, totalPrice, confirmOrder } = useOrderContext();
 
     const handlePlaceOrder = () => {
         confirmOrder();
@@ -22,7 +22,7 @@ function OrderPage() {
                             />
                         ))
                     ) : (
-                        <p>Inga aktiva orders.</p>
+                        <p className='fault-message'>Inga aktiva orders.</p>
                     )}
                 </section>
                 <section>

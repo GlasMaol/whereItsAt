@@ -45,19 +45,16 @@ function EventCalc({ event }) {
 
 export default EventCalc;*/
 
-import { useContext, useState, useEffect } from "react";
-import { OrderContext } from "../../OrderContextProvider";
+import { useState, useEffect } from "react";
+import { useOrderContext } from "../../OrderContextProvider";
 import './eventCalc.css';
 
 function EventCalc({ event }) {
     if (!event) {
-        return <div>Loading event data...</div>;
+        return <div className="fault-message">Loading event data...</div>;
     }
 
-    const { addTickets, removeTickets, ticketCounts, eventPrices } = useContext(OrderContext);
-    /*console.log('ticketCounts', ticketCounts, event.id);*/
-    /*const initialTicketCount = ticketCounts[event.id] || 0;
-    const initialTotalPrice = event.price || 0;*/
+    const { addTickets, removeTickets, ticketCounts, eventPrices } = useOrderContext();
     const [ticketCount, setTicketCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
 
