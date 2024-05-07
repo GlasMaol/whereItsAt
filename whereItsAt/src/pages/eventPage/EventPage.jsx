@@ -19,15 +19,13 @@ function EventPage() {
         setEvent(foundEvent);
     }, [eventId, events]);
 
-    /*console.log("Event skickat till EventCard:", event);*/
-
     return (
         <div className="content__container">
             <h2>Event</h2>
             <p className='event__text'>
                 You are about to score<br></br>some tickets to
             </p>
-            {event ? <EventCard event={{ id: event.id, name: event.name, when: event.when, where: event.where, price: event.price }} /> : <p>Event details not found.</p>}
+            {event ? <EventCard event={{ id: event.id, name: event.name, when: event.when, where: event.where, price: event.price }} /> : <p className="fault-message">Event details not found.</p>}
         </div>
     );
 }

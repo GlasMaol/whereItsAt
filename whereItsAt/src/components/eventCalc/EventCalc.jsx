@@ -1,49 +1,3 @@
-/*import { useOrderContext } from '../../OrderContextProvider';
-import { useState } from 'react';
-import OrderCard from '../orderCard/OrderCard';
-
-
-function EventCalc({ event }) {
-    if (!event) {
-        return <div>Loading event data...</div>;
-    }
-
-    const { addTickets, removeTickets, ticketCounts, eventPrices } = useOrderContext();
-    const initialTicketCount = ticketCounts[event.id] || 0;
-    const initialTotalPrice = 0; // Set initial total price to 0
-    const [ticketCount, setTicketCount] = useState(initialTicketCount);
-    const [totalPrice, setTotalPrice] = useState(initialTotalPrice);
-
-    const handleAddTicket = () => {
-        if (event) {
-            addTickets(event.id, 1, event.price);
-            setTicketCount(prevCount => prevCount + 1);
-            setTotalPrice(prevPrice => prevPrice + event.price);
-        }
-    };
-
-    const handleRemoveTicket = () => {
-        if (event && ticketCount > 0) {
-            removeTickets(event.id, 1, event.price);
-            setTicketCount(prevCount => prevCount - 1);
-            setTotalPrice(prevPrice => prevPrice - event.price);
-        }
-    };
-
-    return (
-        <div className="eventcalc__container">
-            
-            <OrderCard event={event} ticketCount={ticketCount} />
-            <div className="eventcalc__controls">
-                <button className="calc__btn btn__border-right" onClick={handleRemoveTicket} disabled={!event}>-</button>
-                <span className="ticket__nr">{ticketCount}</span>
-                <button className="calc__btn btn__border-left" onClick={handleAddTicket} disabled={!event}>+</button>
-            </div>
-        </div>
-    );
-}
-
-export default EventCalc;*/
 
 import { useState, useEffect } from "react";
 import { useOrderContext } from "../../OrderContextProvider";
@@ -54,7 +8,7 @@ function EventCalc({ event }) {
         return <div className="fault-message">Loading event data...</div>;
     }
 
-    const { addTickets, removeTickets, ticketCounts, eventPrices } = useOrderContext();
+    const { addTickets, removeTickets, ticketCounts } = useOrderContext();
     const [ticketCount, setTicketCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
 
