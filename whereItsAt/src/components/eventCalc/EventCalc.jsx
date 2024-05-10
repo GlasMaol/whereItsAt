@@ -1,5 +1,57 @@
-
 import { useState, useEffect } from "react";
+import { useOrderContext } from "../../OrderContextProvider";
+import './eventCalc.css';
+
+function EventCalc({ event }) {
+    const { addTickets, removeTickets, ticketCounts, totalPrices } = useOrderContext();
+    const [localTicketCount, setLocalTicketCount] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        if (event) {
+            const savedTicketCount = ticketCounts[event.eventId] || 0;
+            setLocalTicketCount(savedTicketCount);
+            setTotalPrice(event.price || 0);
+        }
+    }, [event, ticketCounts]);
+
+    const handleAddTicket = () => {
+        console.log('Before adding ticket: ticketCount:', localTicketCount, 'totalPrice:', totalPrice);
+        if (event) {
+            addTickets(event.eventId, 1, event.price);
+            setLocalTicketCount(prevCount => prevCount + 1);
+            setTotalPrice(prevPrice => prevPrice + event.price);
+        }
+        /*console.log('After adding ticket: ticketCount:', localTicketCount, 'totalPrice:', totalPrice);*/
+    };
+
+    const handleRemoveTicket = () => {
+        console.log('Before removing ticket: ticketCount:', localTicketCount, 'totalPrice:', totalPrice);
+        if (event && localTicketCount > 0) {
+            removeTickets(event.eventId, 1, event.price);
+            setLocalTicketCount(prevCount => prevCount - 1);
+            setTotalPrice(prevPrice => prevPrice - event.price);
+        }
+        
+    };
+
+    return (
+        <div className="eventcalc__container">
+            <span className="eventcalc__price">
+                {localTicketCount > 0 ? totalPrice * localTicketCount : (event && event.price !== undefined ? event.price : 'Pris ej tillgänglig')} sek
+            </span>
+            <div className="eventcalc__controls">
+                <button className="calc__btn btn__border-right" onClick={handleRemoveTicket} disabled={!event}>-</button>
+                <span className="ticket__nr">{localTicketCount}</span>
+                <button className="calc__btn btn__border-left" onClick={handleAddTicket} disabled={!event}>+</button>
+            </div>
+        </div>
+    );
+}
+
+export default EventCalc;
+
+/*import { useState, useEffect } from "react";
 import { useOrderContext } from "../../OrderContextProvider";
 import './eventCalc.css';
 
@@ -14,7 +66,7 @@ function EventCalc({ event }) {
 
     useEffect(() => {
         if (event) {
-            const savedTicketCount = ticketCounts[event.id] || 0;
+            const savedTicketCount = ticketCounts[event.eventId] || 0;
             setTicketCount(savedTicketCount);
             setTotalPrice(event.price || 0);
         }
@@ -23,7 +75,7 @@ function EventCalc({ event }) {
     const handleAddTicket = () => {
         console.log('Before adding ticket: ticketCount:', ticketCount, 'totalPrice:', totalPrice);
         if (event) {
-            addTickets(event.id, 1, event.price);
+            addTickets(event.eventId, 1, event.price);
             setTicketCount(prevCount => prevCount + 1);
             setTotalPrice(prevPrice => prevPrice + event.price);
         }
@@ -33,7 +85,7 @@ function EventCalc({ event }) {
     const handleRemoveTicket = () => {
         console.log('Before removing ticket: ticketCount:', ticketCount, 'totalPrice:', totalPrice);
         if (event && ticketCount > 0) {
-            removeTickets(event.id, 1, event.price);
+            removeTickets(event.eventId, 1, event.price);
             setTicketCount(prevCount => prevCount - 1);
             setTotalPrice(prevPrice => prevPrice - event.price);
         }
@@ -55,4 +107,4 @@ function EventCalc({ event }) {
     );
 }
 
-export default EventCalc;
+export default EventCalc;*/
