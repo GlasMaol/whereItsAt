@@ -112,55 +112,6 @@ const OrderContextProvider = ({ children }) => {
 
         return generatedTickets;
     };
-    //old function
-    /*const generateTicketsForOrders = (orders) => {
-        console.log("Input Orders:", orders);
-        
-        const generatedTickets = [];
-    
-        if (Array.isArray(orders)) {
-            // Log the input orders to verify data
-            console.log("Input Orders:", orders);
-    
-            let index = 0;
-            for (const order of orders) {
-                const numTickets = order.ticketCount || 0;
-    
-                // Log individual order details
-                console.log(`Order ${index + 1} Details:`, order);
-    
-                for (let i = 0; i < numTickets; i++) {
-                    const ticketId = `${order.eventId}-${index}-${i}`;
-    
-                    // Log the generated ticket ID
-                    console.log(`Generated Ticket ID: ${ticketId}`);
-    
-                    const ticketInfo = {
-                        ticketId,
-                        eventName: order.name,
-                        eventLocation: order.where,
-                        eventDate: order.date,
-                        eventFrom: order.from,
-                        eventTo: order.to,
-                    };
-    
-                    // Log the ticket information
-                    console.log("Ticket Information:", ticketInfo);
-    
-                    generatedTickets.push(ticketInfo);
-                }
-    
-                index++;
-            }
-        } else {
-            console.error("Orders is not an array.");
-        }
-    
-        // Log the generated tickets array
-        console.log("Generated Tickets:", generatedTickets);
-    
-        return generatedTickets;
-    };*/
 
     const confirmOrder = () => {
         try {
@@ -176,28 +127,6 @@ const OrderContextProvider = ({ children }) => {
             console.error('Error in confirmOrder:', error);
         }
     };
-
-    //old confim order
-    /*const confirmOrder = () => {
-        try {
-            console.log('Orders before generating tickets:', orders);
-
-            const newTickets = generateTicketsForOrders(Array.isArray(orders) ? orders : [orders]);
-
-            console.log('Generated tickets:', newTickets);
-
-            setTickets(newTickets);
-            setTimeout(() => {
-                setOrders([]);
-                console.log('setOrders called');
-                setTicketCounts({});
-                setEventPrices({});
-                setTotalPrice(0);
-            }, 0);
-        } catch (error) {
-            console.error('Error in confirmOrder:', error);
-        }
-    }*/
 
     const clearOrders = () => {
         setOrders([]);
