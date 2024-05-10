@@ -2,65 +2,52 @@
 import { useEffect } from "react";
 import './ticketCard.css';
 
-function TicketCard({ ticket }) {
+function TicketCard({ order }) {
 
-    if (!ticket) {
+    if (!order) {
         return null;
     }
 
-    const { eventName, eventLocation, eventDate, eventFrom, eventTo } = ticket;
+    const { name, where, date, from, to } = order;
 
     return (
         <div className="tickets__container">
             <section className="ticket__frame">
                 <section className="what__section">
                     <p>WHAT</p>
-                    <h2>
-                        {eventName}
-                    </h2>
+                    <h2>{name}</h2>
                 </section>
                 <section className="where__section">
                     <p>WHERE</p>
                     <span>
-                        <p>
-                            {eventLocation}</p>
+                        <p>{where}</p>
                     </span>
                 </section>
                 <section className="when__section">
                     <span>
-                        <p>
-                            WHEN
-                        </p>
-                        <p>
-                            {eventDate}
-                            </p>
+                        <p>WHEN</p>
+                        <p>{date}</p>
                     </span>
                     <span>
-                        <p>
-                            FROM
-                        </p>
-                        <p>{eventFrom}</p>
+                        <p>FROM</p>
+                        <p>{from}</p>
                     </span>
                     <span>
-                        <p>
-                            TO
-                        </p>
-                        <p>{eventTo}</p>
+                        <p>TO</p>
+                        <p>{to}</p>
                     </span>
                 </section>
                 <section className="info__section">
-                    <p>
-                        INFO
-                    </p>
+                    <p>INFO</p>
                     <span>
-                        <p>importera seatinmg section här</p>
+                        <p>import seating section here</p>
                     </span>
                     <span>
-                        <p>importera seat här</p>
+                        <p>import seat here</p>
                     </span>
                 </section>
                 <section className="id__section">
-                    <article><p>put seating generator here</p></article>
+                    <article><p>barcode</p></article>
                     <article><p>put random ticket ID here</p></article>
                 </section>
             </section>

@@ -26,6 +26,7 @@ function OrderPage({ event }) {
     }, [showTickets]);*/
 
     const handlePlaceOrder = () => {
+        console.log("Orders before confirming:", orders);
         const validateOrder = (order) => {
             console.log('order to validate', order);
             const requiredFields = ['id', 'name', 'date', 'from', 'to', 'where', 'ticketCount'];
@@ -51,6 +52,7 @@ function OrderPage({ event }) {
         }
     }, [tickets]);
 
+
     useEffect(() => {
         console.log('aktuellaorders:', orders);
         const ids = orders.map(order => order.id);
@@ -59,6 +61,7 @@ function OrderPage({ event }) {
             console.error('Varning! Det finns dubbletter i order IDs');
         }
         if (orders.length > 0) {
+            console.log("Data Passed to generateTicketsForOrders:", orders);
             const generatedTickets = generateTicketsForOrders(orders);
             setTickets(generatedTickets);
             console.log('generated tickets here', generatedTickets);
@@ -68,7 +71,7 @@ function OrderPage({ event }) {
     return (
         <div className="content__container ">
             <h2>Order</h2>
-            {showTickets && event && tickets.length > 0 && (
+            {showTickets && tickets.length > 0 && (
                 <TicketsPage tickets={tickets} />
             )}
             <section className='order__content'>

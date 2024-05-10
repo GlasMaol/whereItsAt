@@ -17,7 +17,7 @@ const OrderContextProvider = ({ children }) => {
         setOrders(prevOrders => {
             const existingOrderIndex = prevOrders.findIndex(o => o.id === order.id);
             if (existingOrderIndex !== -1) {
-                
+
                 const updatedOrders = [...prevOrders];
                 updatedOrders[existingOrderIndex] = {
                     ...updatedOrders[existingOrderIndex],
@@ -67,28 +67,52 @@ const OrderContextProvider = ({ children }) => {
     };
 
 
-    const generateTicketsForOrders = (ordersInput) => {
-        const orders = Array.isArray(ordersInput) ? ordersInput : [ordersInput];
+    const generateTicketsForOrders = (orders) => {
+        console.log("Input Orders:", orders);
+        
         const generatedTickets = [];
-
-        orders.forEach((order, index) => {
-            const numTickets = order.ticketCount || 0;
-
-            for (let i = 0; i < numTickets; i++) {
-                const ticketId = `${order.eventId}-${index}-${i}`;
-
-                const ticketInfo = {
-                    ticketId,
-                    eventName: order.name,
-                    eventLocation: order.where,
-                    eventDate: order.date,
-                    eventFrom: order.from,
-                    eventTo: order.to,
-                };
-                generatedTickets.push(ticketInfo);
+    
+        if (Array.isArray(orders)) {
+            // Log the input orders to verify data
+            console.log("Input Orders:", orders);
+    
+            let index = 0;
+            for (const order of orders) {
+                const numTickets = order.ticketCount || 0;
+    
+                // Log individual order details
+                console.log(`Order ${index + 1} Details:`, order);
+    
+                for (let i = 0; i < numTickets; i++) {
+                    const ticketId = `${order.eventId}-${index}-${i}`;
+    
+                    // Log the generated ticket ID
+                    console.log(`Generated Ticket ID: ${ticketId}`);
+    
+                    const ticketInfo = {
+                        ticketId,
+                        eventName: order.name,
+                        eventLocation: order.where,
+                        eventDate: order.date,
+                        eventFrom: order.from,
+                        eventTo: order.to,
+                    };
+    
+                    // Log the ticket information
+                    console.log("Ticket Information:", ticketInfo);
+    
+                    generatedTickets.push(ticketInfo);
+                }
+    
+                index++;
             }
-        });
-
+        } else {
+            console.error("Orders is not an array.");
+        }
+    
+        // Log the generated tickets array
+        console.log("Generated Tickets:", generatedTickets);
+    
         return generatedTickets;
     };
 
@@ -97,9 +121,7 @@ const OrderContextProvider = ({ children }) => {
         try {
             console.log('Orders before generating tickets:', orders);
 
-            const newTickets = orders.flatMap(order => {
-                return generateTicketsForOrders(order);
-            });
+            const newTickets = generateTicketsForOrders(Array.isArray(orders) ? orders : [orders]);
 
             console.log('Generated tickets:', newTickets);
 

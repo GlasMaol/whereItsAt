@@ -7,27 +7,28 @@ import './ticketsPage.css';
 
 
 const TicketsPage = () => {
-    const { tickets } = useOrderContext();
+    const { orders } = useOrderContext();
     
     useEffect(() => {
-        console.log("Tickets:", tickets);
-    }, [tickets]);
+        console.log(" orders in TicketsPage:", orders);
+    }, [orders]);
 
-    if (tickets.length === 0) {
+ useEffect(() => {
+        console.log('my ordered tickets eller...',orders);
+    }, [orders]);
+
+    if (orders.length === 0) {
         return <p>Inga biljetter tillgängliga.</p>;
     }
 
-    useEffect(() => {
-        console.log('my tickets eller...',tickets);
-    }, [tickets]);
 
     return (
         <div>
-            {tickets.length > 0 ? (
-                tickets.map(ticket => (
+            {orders.length > 0 ? (
+                orders.map(order => (
                     <TicketCard
-                    key={ticket.ticketId}
-                    ticket={ticket}
+                    key={order.id}
+                    ticket={order}
                     />
                 ))
             ) : (
