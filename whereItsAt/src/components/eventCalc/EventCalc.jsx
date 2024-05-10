@@ -11,28 +11,26 @@ function EventCalc({ event }) {
         if (event) {
             const savedTicketCount = ticketCounts[event.eventId] || 0;
             setLocalTicketCount(savedTicketCount);
+            const eventPrice = event.price || 0;
+            const savedTotalPrice = savedTicketCount * eventPrice;
             setTotalPrice(event.price || 0);
         }
     }, [event, ticketCounts]);
 
     const handleAddTicket = () => {
-        console.log('Before adding ticket: ticketCount:', localTicketCount, 'totalPrice:', totalPrice);
         if (event) {
             addTickets(event.eventId, 1, event.price);
             setLocalTicketCount(prevCount => prevCount + 1);
             setTotalPrice(prevPrice => prevPrice + event.price);
         }
-        /*console.log('After adding ticket: ticketCount:', localTicketCount, 'totalPrice:', totalPrice);*/
     };
 
     const handleRemoveTicket = () => {
-        console.log('Before removing ticket: ticketCount:', localTicketCount, 'totalPrice:', totalPrice);
         if (event && localTicketCount > 0) {
             removeTickets(event.eventId, 1, event.price);
             setLocalTicketCount(prevCount => prevCount - 1);
             setTotalPrice(prevPrice => prevPrice - event.price);
         }
-        
     };
 
     return (
@@ -51,6 +49,12 @@ function EventCalc({ event }) {
 
 export default EventCalc;
 
+
+
+
+
+
+//older code
 /*import { useState, useEffect } from "react";
 import { useOrderContext } from "../../OrderContextProvider";
 import './eventCalc.css';

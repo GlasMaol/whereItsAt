@@ -1,11 +1,71 @@
-
 import { useState, useEffect } from 'react';
 import { useOrderContext } from '../../OrderContextProvider';
 import OrderCard from '../../components/orderCard/OrderCard';
 import './orderPage.css';
-import TicketsPage from '../ticketspage/TicketsPage';
+import { useNavigate } from 'react-router-dom';
+
+function OrderPage({ order }) {
+    const navigate = useNavigate();
+
+    const { orders, totalPrice, confirmOrder, generateTicketsForOrders } = useOrderContext();
+    const [isOrdering, setIsOrdering] = useState(false);
+
+    useEffect(() => {
+        // Check if there are any active orders
+        setIsOrdering(orders.length > 0);
+    }, [orders]);
+
+    const handlePlaceOrder = async () => {
+        
+        await confirmOrder();
+        navigate('/tickets');
+    };
+
+    return (
+        <div className="content__container ">
+            <h2>Order</h2>
+            <section className='order__content'>
+                <section>
+                    {orders.length > 0 ? (
+                        orders.map(order => (
+                            <OrderCard
+                                key={order.id}
+                                order={order}
+                            />
+                        ))
+                    ) : (
+                        <p className='fault-message'>Inga aktiva orders.</p>
+                    )}
+                </section>
+                <section>
+                    <span>
+                        <p className='order__text'>Totalt värde på order</p>
+                        <p className='order__total'>{totalPrice} sek</p>
+                    </span>
+                    {isOrdering && (
+                        <button className="btn__styling" onClick={handlePlaceOrder}>
+                            Skicka order
+                        </button>
+                    )}
+                </section>
+            </section>
+        </div>
+    )
+}
+
+export default OrderPage;
+
+
+/*import { useState, useEffect } from 'react';
+import { useOrderContext } from '../../OrderContextProvider';
+import OrderCard from '../../components/orderCard/OrderCard';
+import './orderPage.css';
+import TicketsPage from '../ticketspage/TicketPage';
+import { useNavigate } from 'react-router-dom';
 
 function OrderPage({ event }) {
+    const navigate = useNavigate();
+
     const { orders, totalPrice, confirmOrder, generateTicketsForOrders, addTickets, removeTickets } = useOrderContext();
     const [tickets, setTickets] = useState([]);
     const [showTickets, setShowTickets] = useState(true);
@@ -21,29 +81,12 @@ function OrderPage({ event }) {
         console.log('orders', orders);
     }, [orders, tickets])
 
-    /*useEffect(() => {
-        console.log('showTickets:', showTickets);
-    }, [showTickets]);*/
 
     const handlePlaceOrder = () => {
-        console.log("Orders before confirming:", orders);
-        const validateOrder = (order) => {
-            console.log('order to validate', order);
-            const requiredFields = ['id', 'name', 'date', 'from', 'to', 'where', 'ticketCount'];
-            const missingFields = requiredFields.filter(field => !order[field]);
-            if (missingFields.length > 0) {
-                console.error("Saknade fält i order:", missingFields.join(', '));
-                return false;
-            }
-            return true;
-        };
-
-        if (orders.every(validateOrder)) {
-            confirmOrder();
-        } else {
-            console.error("En eller flera orders är inte korrekt ifyllda.");
-        }
-        setShowTickets(true);
+        // Call the confirmOrder function from the context
+        confirmOrder();
+        navigate('/tickets');
+        // Navigate the user to the TicketsPage (you'll need to implement the navigation logic here)
     };
 
     useEffect(() => {
@@ -104,4 +147,4 @@ function OrderPage({ event }) {
     )
 }
 
-export default OrderPage;
+export default OrderPage;*/

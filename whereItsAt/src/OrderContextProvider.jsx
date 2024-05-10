@@ -1,10 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import useApiStore from './apiStore';
+import { useNavigate } from 'react-router-dom';
 
 const OrderContext = createContext();
 const useOrderContext = () => useContext(OrderContext);
 
 const OrderContextProvider = ({ children }) => {
+    const navigate = useNavigate();
+
     const { events, fetchEvents } = useApiStore();
     const [orders, setOrders] = useState([]);
     const [ticketCounts, setTicketCounts] = useState([]);
@@ -13,7 +16,7 @@ const OrderContextProvider = ({ children }) => {
     const [tickets, setTickets] = useState([]);
 
     const addOrder = (order) => {
-        console.log('addOrder order', order);
+        /*console.log('addOrder order', order);*/
         setOrders(prevOrders => {
             const existingOrderIndex = prevOrders.findIndex(o => o.id === order.id);
             if (existingOrderIndex !== -1) {
@@ -66,8 +69,51 @@ const OrderContextProvider = ({ children }) => {
         }
     };
 
-
     const generateTicketsForOrders = (orders) => {
+        console.log("Input Orders:", orders);
+
+        const generatedTickets = [];
+
+        if (Array.isArray(orders)) {
+
+            console.log("Input Orders:", orders);
+
+            orders.forEach((order, index) => {
+                const numTickets = order.ticketCount || 0;
+
+                // Log individual order details
+                console.log(`Order ${index + 1} Details:`, order);
+
+                for (let i = 0; i < numTickets; i++) {
+                    // Generate ticket ID using order ID, index, and ticket index
+                    const ticketId = `${order.id}-${order.name}-${order.date}-${i}`;
+
+                    console.log(`Generated Ticket ID: ${ticketId}`);
+
+                    const ticketInfo = {
+                        ticketId,
+                        eventName: order.name,
+                        eventLocation: order.where,
+                        eventDate: order.date,
+                        eventFrom: order.from,
+                        eventTo: order.to,
+                    };
+
+                    console.log("Ticket Information:", ticketInfo);
+
+                    generatedTickets.push(ticketInfo);
+                }
+            });
+        } else {
+            console.error("Orders is not an array.");
+        }
+
+        console.log("Generated Tickets:", generatedTickets);
+
+        return generatedTickets;
+    };
+    //old function
+    /*const generateTicketsForOrders = (orders) => {
         console.log("Input Orders:", orders);
         
         const generatedTickets = [];
@@ -114,10 +160,25 @@ const OrderContextProvider = ({ children }) => {
         console.log("Generated Tickets:", generatedTickets);
     
         return generatedTickets;
-    };
-
+    };*/
 
     const confirmOrder = () => {
+        try {
+            console.log('Orders before generating tickets:', orders);
+
+            const newTickets = generateTicketsForOrders(Array.isArray(orders) ? orders : [orders]);
+            console.log('Generated tickets:', newTickets);
+
+            setTickets(newTickets);
+        
+            navigate('/tickets');
+        } catch (error) {
+            console.error('Error in confirmOrder:', error);
+        }
+    };
+
+    //old confim order
+    /*const confirmOrder = () => {
         try {
             console.log('Orders before generating tickets:', orders);
 
@@ -136,6 +197,13 @@ const OrderContextProvider = ({ children }) => {
         } catch (error) {
             console.error('Error in confirmOrder:', error);
         }
+    }*/
+
+    const clearOrders = () => {
+        setOrders([]);
+        setEventPrices({});
+        setTotalPrice(0);
+        console.log('Orders and related states cleared');
     }
 
     const updateOrder = (orderId, ticketChange, isAdding) => {
@@ -205,8 +273,12 @@ const OrderContextProvider = ({ children }) => {
         removeTickets,
         ticketCounts,
         eventPrices,
+        setEventPrices,
         totalPrice,
+        setTotalPrice,
         addOrder,
+        setOrders,
+        clearOrders,
         removeOrder,
         confirmOrder,
         updateOrder,

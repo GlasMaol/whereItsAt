@@ -5,7 +5,7 @@ import OrderPage from './pages/orderpage/OrderPage';
 import EventsPage from './pages/eventspage/EventsPage';
 import NavBar from './components/navbar/NavBar';
 import EventPage from "./pages/eventPage/EventPage";
-import TicketsPage from './pages/ticketspage/TicketsPage';
+import TicketPage from './pages/ticketspage/TicketPage';
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
           <Route path='/events' element={<EventsPage />} />
           <Route path='/event/:eventId' element={<EventPage />} />
           <Route path='/orders' element={<OrderPage />} />
-          <Route path='/tickets' element={<TicketsPage />} />
+          <Route path='/tickets' element={<TicketPage />} />
         </Routes>
 
         <NavBar />

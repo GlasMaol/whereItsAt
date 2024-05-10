@@ -6,11 +6,11 @@ function EventCard({ event, addEventTicket }) {
     const { addOrder, orders } = useOrderContext();
 
     const handleAddToCart = () => {
-        console.log('event to add to cart', event);
+        /*console.log('event to add to cart', event);*/
         if (event) {
             const existingOrderIndex = orders.findIndex(order => order.id === event.eventId);
             const newTicketCount = (existingOrderIndex !== -1) ? orders[existingOrderIndex].ticketCount + 1 : 1;
-            console.log('newTicketCount', newTicketCount);
+            /*console.log('newTicketCount', newTicketCount);*/
             const totalPrice = newTicketCount * event.price;
     
             const order = {
@@ -26,7 +26,7 @@ function EventCard({ event, addEventTicket }) {
             };
     
             addOrder(order);
-            console.log('Added order:', order);
+            /*console.log('Added order:', order);*/
         }
     };
 
