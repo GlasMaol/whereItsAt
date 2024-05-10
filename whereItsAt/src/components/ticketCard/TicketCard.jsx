@@ -1,12 +1,13 @@
 import './ticketCard.css'
 import { useOrderContext } from '../../OrderContextProvider';
 
+
 const TicketCard = ({ order }) => {
 const { tickets } = useOrderContext();
 
     const { name, where, date, from, to, id } = order;
 
-    // Function to generate a random ticket ID
+
     const randomTicketId = (existingIds) => {
         const generateId = () => {
             let Id = '';
@@ -24,30 +25,56 @@ const { tickets } = useOrderContext();
         return newId;
     };
 
-    // Function to generate seating information
+
     const generateSeating = (existingTickets, numTickets) => {
         const sections = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(/[ÅÄÖ]/g, '');
         let section = sections[Math.floor(Math.random() * sections.length)];
-
+    
         let maxSeatNum = existingTickets.reduce((max, ticket) => {
             return ticket.section === section ? Math.max(max, ticket.seat) : max;
         }, 0);
-
+    
+        const consecutiveSeats = numTickets; // Number of consecutive seats required
         let seats = [];
-        for (let i = 1; i <= numTickets; i++) {
-            seats.push({
-                section: section,
-                seat: maxSeatNum + i
-            });
+    
+        // Find available consecutive seats
+        let availableSeats = [];
+        let maxAvailableStartingSeat = maxSeatNum - consecutiveSeats + 2;
+        if (maxAvailableStartingSeat <= 1) {
+            maxAvailableStartingSeat = 1;
         }
+        let startingSeat = Math.floor(Math.random() * (maxAvailableStartingSeat - 1)) + 1; // Randomly select a starting seat
+        for (let i = startingSeat; i <= maxSeatNum + 1; i++) {
+            if (!existingTickets.some(ticket => ticket.section === section && ticket.seat === i)) {
+                availableSeats.push(i);
+                if (availableSeats.length === consecutiveSeats) {
+                    // Found enough consecutive seats
+                    seats.push(...availableSeats.map(seat => ({ section, seat })));
+                    break;
+                }
+            } else {
+                availableSeats = []; // Reset availableSeats if consecutive seats are not available
+            }
+        }
+    
+        // If enough consecutive seats are not available, generate random seats
+        if (seats.length < numTickets) {
+            for (let i = 0; i < numTickets; i++) {
+                seats.push({
+                    section: section,
+                    seat: maxSeatNum + i + 1
+                });
+            }
+        }
+    
         return seats;
     };
 
-    // Generate a random ticket ID for this order
+    // Generera a random ticket till objektet
     const ticketId = randomTicketId(Object.keys(tickets));
 
-    // Generate seating information for this order
-    const seating = generateSeating(tickets, 1)[0]; // Assuming generating 1 ticket
+    // Generera sittplats och sektion
+    const seating = generateSeating(tickets, 1)[0];
 
 
     return (
