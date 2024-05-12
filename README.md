@@ -6,10 +6,10 @@ Den tillåter funktionella komponenter att komma åt data som lagras i en kontex
 ### Hur fungerar det?<br>
 Först och främst ska man skapa en jsx-fil på under src mappen (samma nivå som App.jsx). <br><br>
 Nästa steget är att skapa en context genom att skriva:<br><br>
-import { createContext, useContext } from 'react';<br>
+import { createContext, useContext } from 'react';<br><br>
 Nästa steg är att skapa en context objekt:<br>
-const MyContext = createContext();<br>
-Som jag har läst mig till bör man också döpa om useContext(OrderContext) hooken som till exempel useOrderContext. Detta gör att man slipper skriva en del kod när man ska kalla functioner.<br>
+const MyContext = createContext();<br><br>
+Som jag har läst mig till bör man också döpa om useContext(OrderContext) hooken som till exempel useOrderContext. Detta gör att man slipper skriva en del kod när man ska kalla functioner.<br><br>
 Komponenten skapas ungefär på samma sätt som övriga jsx komponenter eller pages: <br>
 const OrderContextProvider = ({ children }) => //skapa funktionen{ <br>
 const [variable, setVariabel] = useState(); // skapa variables<br>
