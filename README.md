@@ -1,5 +1,7 @@
 # My whereItsAt
 
-## ReactHook: UseContext:
+## ReactHook: UseContext
+### Hur fungerar det?
 
-## Extern bibliotek: react-icons:
+## Extern bibliotek: react-icons
+### Hur fungerar det?
