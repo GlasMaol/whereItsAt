@@ -16,7 +16,6 @@ const OrderContextProvider = ({ children }) => {
     const [tickets, setTickets] = useState([]);
 
     const addOrder = (order) => {
-        /*console.log('addOrder order', order);*/
         setOrders(prevOrders => {
             const existingOrderIndex = prevOrders.findIndex(o => o.id === order.id);
             if (existingOrderIndex !== -1) {
@@ -81,11 +80,9 @@ const OrderContextProvider = ({ children }) => {
             orders.forEach((order, index) => {
                 const numTickets = order.ticketCount || 0;
 
-                // Log individual order details
                 console.log(`Order ${index + 1} Details:`, order);
 
                 for (let i = 0; i < numTickets; i++) {
-                    // Generate ticket ID using order ID, index, and ticket index
                     const ticketId = `${order.id}-${order.name}-${order.date}-${i}`;
 
                     console.log(`Generated Ticket ID: ${ticketId}`);
@@ -107,19 +104,14 @@ const OrderContextProvider = ({ children }) => {
         } else {
             console.error("Orders is not an array.");
         }
-
-        console.log("Generated Tickets:", generatedTickets);
-
         return generatedTickets;
     };
 
     const confirmOrder = () => {
-        console.log('confirmOrder function called');
         try {
             console.log('Orders before generating tickets:', orders);
 
             const newTickets = generateTicketsForOrders(Array.isArray(orders) ? orders : [orders]);
-            console.log('Generated tickets:', newTickets);
 
             setTickets(newTickets);
         
