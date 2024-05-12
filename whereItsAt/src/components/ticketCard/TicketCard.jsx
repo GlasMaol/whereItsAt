@@ -34,30 +34,27 @@ const { tickets } = useOrderContext();
             return ticket.section === section ? Math.max(max, ticket.seat) : max;
         }, 0);
     
-        const consecutiveSeats = numTickets; // Number of consecutive seats required
+        const consecutiveSeats = numTickets;
         let seats = [];
     
-        // Find available consecutive seats
         let availableSeats = [];
         let maxAvailableStartingSeat = maxSeatNum - consecutiveSeats + 2;
         if (maxAvailableStartingSeat <= 1) {
             maxAvailableStartingSeat = 1;
         }
-        let startingSeat = Math.floor(Math.random() * (maxAvailableStartingSeat - 1)) + 1; // Randomly select a starting seat
+        let startingSeat = Math.floor(Math.random() * (maxAvailableStartingSeat - 1)) + 1;
         for (let i = startingSeat; i <= maxSeatNum + 1; i++) {
             if (!existingTickets.some(ticket => ticket.section === section && ticket.seat === i)) {
                 availableSeats.push(i);
                 if (availableSeats.length === consecutiveSeats) {
-                    // Found enough consecutive seats
                     seats.push(...availableSeats.map(seat => ({ section, seat })));
                     break;
                 }
             } else {
-                availableSeats = []; // Reset availableSeats if consecutive seats are not available
+                availableSeats = [];
             }
         }
     
-        // If enough consecutive seats are not available, generate random seats
         if (seats.length < numTickets) {
             for (let i = 0; i < numTickets; i++) {
                 seats.push({
@@ -127,62 +124,3 @@ const { tickets } = useOrderContext();
 };
 
 export default TicketCard;
-
-
-/*import { useEffect } from "react";
-import './ticketCard.css';
-
-function TicketCard({ order }) {
-
-    if (!order) {
-        return null;
-    }
-
-    const { name, where, date, from, to } = order;
-
-    return (
-        <div className="tickets__container">
-            <section className="ticket__frame">
-                <section className="what__section">
-                    <p>WHAT</p>
-                    <h2>{name}</h2>
-                </section>
-                <section className="where__section">
-                    <p>WHERE</p>
-                    <span>
-                        <p>{where}</p>
-                    </span>
-                </section>
-                <section className="when__section">
-                    <span>
-                        <p>WHEN</p>
-                        <p>{date}</p>
-                    </span>
-                    <span>
-                        <p>FROM</p>
-                        <p>{from}</p>
-                    </span>
-                    <span>
-                        <p>TO</p>
-                        <p>{to}</p>
-                    </span>
-                </section>
-                <section className="info__section">
-                    <p>INFO</p>
-                    <span>
-                        <p>import seating section here</p>
-                    </span>
-                    <span>
-                        <p>import seat here</p>
-                    </span>
-                </section>
-                <section className="id__section">
-                    <article><p>barcode</p></article>
-                    <article><p>put random ticket ID here</p></article>
-                </section>
-            </section>
-        </div>
-    )
-}
-
-export default TicketCard*/

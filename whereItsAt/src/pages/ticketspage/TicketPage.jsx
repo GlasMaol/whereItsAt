@@ -1,14 +1,58 @@
-import { useEffect, useState } from 'react';
+/*import { useEffect } from 'react';*/
+import { useOrderContext } from '../../OrderContextProvider';
+import TicketCard from '../../components/ticketCard/TicketCard';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import './ticketPage.css'
+
+
+const TicketPage = () => {
+    const { orders, clearOrders } = useOrderContext();
+
+    //Stör skapandet av biljetter och är därför kommenterat bort.
+    /*useEffect(() => {
+        return () => {
+            clearOrders();
+        };
+    }, []);*/
+
+
+    return (
+        <div className="ticket-page">
+            <Swiper
+                className="swiper-container"
+                slidesPerView={1}
+                spaceBetween={30}
+            >
+                {orders.map(order => (
+                    <SwiperSlide key={order.id}>
+                        <TicketCard order={order} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </div>
+    );
+};
+
+export default TicketPage;
+
+
+
+
+/*import { useEffect, useState } from 'react';
 import { useOrderContext } from '../../OrderContextProvider';
 import TicketCard from '../../components/ticketCard/TicketCard';
 import './ticketPage.css'
 import { useSwipeable } from 'react-swipeable';
 
 const TicketPage = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    från react-swipeable const [currentIndex, setCurrentIndex] = useState(0);
     const { orders, clearOrders } = useOrderContext();
     console.log('orders in ticketPage', orders);
 
+
+    //react-swipeable func till handlers
     const handlers = useSwipeable({
         onSwipedLeft: () => console.log('swiped left'),
         onSwipedRight: () => console.log('swiped right'),
@@ -28,7 +72,6 @@ const TicketPage = () => {
         trackMouse: true
     });
 
-
     /*useEffect(() => {
         return () => {
             clearOrders();
@@ -36,20 +79,22 @@ const TicketPage = () => {
         };
     }, []);*/
 
-    return (
-        <div className="ticket-page">
+/* return (
+     <div className="ticket-page">
+         <div className="ticket-list" från react_swipeable {...handlers}>
+             {orders.map(order => (
+                 <TicketCard key={order.id} order={order} />
+             ))}
+         </div>
 
-            <div className="ticket-list" {...handlers}>
-                {orders.map(order => (
-                    <TicketCard key={order.id} order={order} />
-                ))}
-            </div>
-
-        </div>
-    );
+     </div>
+ );
 };
 
-export default TicketPage;
+export default TicketPage;*/
+
+
+
 
 
 /*import { useOrderContext } from "../../OrderContextProvider";

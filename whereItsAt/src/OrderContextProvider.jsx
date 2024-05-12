@@ -114,6 +114,7 @@ const OrderContextProvider = ({ children }) => {
     };
 
     const confirmOrder = () => {
+        console.log('confirmOrder function called');
         try {
             console.log('Orders before generating tickets:', orders);
 

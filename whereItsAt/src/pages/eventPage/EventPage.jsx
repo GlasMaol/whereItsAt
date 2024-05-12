@@ -20,7 +20,6 @@ function EventPage() {
 
 
     useEffect(() => {
-        /*console.log("Location state:", location.state);*/
         const foundEvent = events.find(event => event.id === eventId);
         setEvent(foundEvent);
     }, [eventId, events, location.state]);

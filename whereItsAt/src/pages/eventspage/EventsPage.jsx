@@ -12,14 +12,6 @@ function EventsPage() {
         fetchEvents();
     }, [])
 
-    /*useEffect(() => {
-        console.log("Events:", events);
-    }, [events]);*/
-
-    /*useEffect(() => {
-        console.log('Location state:', location.state);
-    }, [location]);*/
-
 
     return (
         <div className="content__container">
@@ -32,7 +24,6 @@ function EventsPage() {
 
             <section className='events__cards-holder'>
                 {events.map((event, index) => {
-                    /*console.log("Event:", event);*/
                     return (
                         <Link
                             to={{
