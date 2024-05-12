@@ -33,3 +33,16 @@ Det som var lockande med useContext och som gjorde att jag ville använda det va
 <br>
 ## Extern bibliotek: react-icons
 ### Hur fungerar det?
+React-icons är en bibliotek i React som tillhandahåller ett utbud av fördefinierade ikoner från olika ikonbibliotek som Font Awesome, Material Icons och många fler. Det gjorde det enkelt för mig att lägga till ikoner i min React-applikation utan att behöva ladda ner och hantera ikonfiler manuellt. Genom att använda React-icons kunde jag snabbt integrera ikoner i min navbar genom att helt enkelt importera och använda dem som vanliga React-komponenter.<br><br>
+Börjar gör man genom att ladda ner react-icons: <br>
+npm install react-icons <br><br>
+När man har bläddrat igenom biblioteket och hittat ikoner man vill ha kopierar man helt enkelt import-koden som finns. koden innehåller ikonen du valt och sökvägen. Som till exempel: <br>
+import { GoHomeFill, GoHome } from 'react-icons/go'; //alltså react-icons/ikonens mapp <br><br>
+inuti returnsektionen integrerar man ikonen på samma sätt som om det våra en komponent. importen kan innehålla styling och annat features som i detta exempel: <br>
+<GoHomeFill
+  className="navBar__icon"
+  color='white'
+  size={35}
+  onMouseEnter={() => setActivePage('home')}
+  onMouseLeave={() => setActivePage(null)}
+/> <br>
