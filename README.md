@@ -39,10 +39,4 @@ npm install react-icons <br><br>
 När man har bläddrat igenom biblioteket och hittat ikoner man vill ha kopierar man helt enkelt import-koden som finns. koden innehåller ikonen du valt och sökvägen. Som till exempel: <br>
 import { GoHomeFill, GoHome } from 'react-icons/go'; //alltså react-icons/ikonens mapp <br><br>
 inuti returnsektionen integrerar man ikonen på samma sätt som om det våra en komponent. importen kan innehålla styling och annat features som i detta exempel: <br>
-<GoHomeFill
-  className="navBar__icon"
-  color='white'
-  size={35}
-  onMouseEnter={() => setActivePage('home')}
-  onMouseLeave={() => setActivePage(null)}
-/> <br>
+<GoHomeFill/> <br>
