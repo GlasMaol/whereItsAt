@@ -2,10 +2,10 @@
 <br>
 ## ReactHook: React UseContext<br>
 Den tillåter funktionella komponenter att komma åt data som lagras i en kontext utan att explicit skicka props genom komponentträdet. Genom att använda useContext kan komponenter komma åt delad state eller andra värden som tillhandahålls av en kontext, vilket gör det enklare att hantera global eller delad data över olika delar av en React-applikation.
-<br>
+<br><br>
 ### Hur fungerar det?<br>
-Först och främst ska man skapa en jsx-fil på under src mappen (samma nivå som App.jsx).
-Nästa steget är att skapa en context genom att skriva:<br>
+Först och främst ska man skapa en jsx-fil på under src mappen (samma nivå som App.jsx). <br><br>
+Nästa steget är att skapa en context genom att skriva:<br><br>
 import { createContext, useContext } from 'react';<br>
 Nästa steg är att skapa en context objekt:<br>
 const MyContext = createContext();<br>
